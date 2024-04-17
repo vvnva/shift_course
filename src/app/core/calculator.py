@@ -20,7 +20,7 @@ class Calculator:
             features: Features,
     ) -> int:
         """Функция принимает на вход вероятность дефолта и признаки и расчитывает одобренную сумму."""
-        #варирование по age, interest_rate_threshold, weighted_ext_threshold скору, share for loan, avg_income_per_adult
+        # варирование по age, interest_rate_threshold, weighted_ext_threshold скору, share for loan, avg_income_per_adult
 
         amount = self.default_amount
         if proba < self.proba_threshold:

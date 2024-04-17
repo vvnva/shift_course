@@ -8,6 +8,7 @@ class ScoringDecision(Enum):
     ACCEPTED = auto()
     DECLINED = auto()
 
+
 @dataclass
 class ScoringResult:
     """Класс, содержащий результаты скоринга."""
@@ -16,6 +17,7 @@ class ScoringResult:
     amount: int
     threshold: float
     proba: float
+
 
 @dataclass
 class Features:

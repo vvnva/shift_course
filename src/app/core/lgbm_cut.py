@@ -7,7 +7,7 @@ from sklearn.metrics import roc_auc_score
 
 
 path = '/Users/vi/home-credit-default-risk/modelling'
-save_path='/Users/vi/DataspellProjects/shift/src/app/core'
+save_path = '/Users/vi/DataspellProjects/shift/src/app/core'
 model = joblib.load(f'{path}/lightgbm_optuna_model.pkl')
 feature_importance = model.feature_importances_
 feature_names = model.booster_.feature_name()
@@ -33,6 +33,7 @@ top_15_feature_names = [feature_name for feature_name, _ in top_15_features]
 
 random_state = 1
 
+
 def objective(trial, X, y):
     param = {
         'objective': 'binary',
@@ -56,13 +57,15 @@ def objective(trial, X, y):
     score = cross_val_score(clf, X, y, n_jobs=-1, cv=3, scoring='roc_auc').mean()
     return score
 
+
 def cut_lightgbm_optuna(path, save_path):
     data = pd.read_csv(f'{path}/data_prep_train_test.csv')
-    data=data[top_15_feature_names + ['target', 'sk_id_curr']]
+    data = data[top_15_feature_names + ['target', 'sk_id_curr']]
 
     train = data.loc[data['target'].notna()].drop(['target', 'sk_id_curr'], axis=1)
     target = data.loc[data['target'].notna()]['target']
-    x_train, x_test, y_train, y_test = train_test_split(train, target, test_size=0.2, stratify=target, random_state=random_state)
+    x_train, x_test, y_train, y_test = train_test_split(train, target, test_size=0.2, stratify=target,
+                                                        random_state=random_state)
 
     study = optuna.create_study(direction='maximize')
     study.optimize(lambda trial: objective(trial, x_train, y_train), n_trials=40, show_progress_bar=True)
@@ -75,10 +78,12 @@ def cut_lightgbm_optuna(path, save_path):
 
     train = data.loc[data['target'].notna()].drop(['target'], axis=1)
     target = data.loc[data['target'].notna()]['target']
-    x_train, x_test, y_train, y_test = train_test_split(train, target, test_size=0.2, stratify=target, random_state=random_state)
-    cut_test=pd.concat([x_test[:200], y_test[:200]], axis=1)
+    x_train, x_test, y_train, y_test = train_test_split(train, target, test_size=0.2, stratify=target,
+                                                        random_state=random_state)
+    cut_test = pd.concat([x_test[:200], y_test[:200]], axis=1)
     cut_test.to_csv(f'{save_path}/cut_test.csv', index=False)
 
     joblib.dump(best_lightgbm, f'{save_path}/lightgbm_optuna_model_cut.pkl')
+
 
 cut_lightgbm_optuna(path, save_path)

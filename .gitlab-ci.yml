@@ -1,0 +1,28 @@
+stages:
+  - lint
+  - test
+
+
+Linting:
+  stage: lint
+  image: python:3.11
+  before_script:
+    - pip install --upgrade pip
+    - pip install wemake-python-styleguide=="0.16.1"
+  script:
+    - flake8 --config=src/config/setup.cfg src/app/core/calculator.py
+    - flake8 --config=src/config/setup.cfg src/app/core/model.py
+    - flake8 --config=src/config/setup.cfg src/app/core/api.py
+  allow_failure: true
+
+Test:
+  stage: test
+  image: python:3.11
+  before_script:
+    - pip install pytest
+    - pip install poetry
+    - poetry install --no-root
+  script:
+    - export PYTHONPATH="$PWD/src:$PYTHONPATH"
+    - pytest tests/app/core/calculator/
+  allow_failure: true

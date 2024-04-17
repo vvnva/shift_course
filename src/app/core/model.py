@@ -8,12 +8,10 @@ class Model_with_scoring(object):
 
     _threshold = 0.25
 
-
     def __init__(self, model_path: str):
         """Создает объект класса."""
-        self._model=joblib.load(model_path)
+        self._model = joblib.load(model_path)
         self._Calculator = Calculator()
-
 
     def get_scoring_result(self, features: Features) -> ScoringResult:
         """Возвращает объект ScoringResult с результатами скоринга."""
@@ -32,7 +30,6 @@ class Model_with_scoring(object):
             threshold=self._threshold,
             proba=proba,
         )
-
 
     def _predict_proba(self, features: Features) -> float:
         """Определяет вероятность невозврата займа."""
