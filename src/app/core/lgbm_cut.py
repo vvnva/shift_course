@@ -1,10 +1,9 @@
 import joblib
-import pandas as pd
-from sklearn.model_selection import train_test_split, cross_val_score
 import optuna
+import pandas as pd
 from lightgbm import LGBMClassifier
 from sklearn.metrics import roc_auc_score
-
+from sklearn.model_selection import cross_val_score, train_test_split
 
 path = '/Users/vi/home-credit-default-risk/modelling'
 save_path = '/Users/vi/DataspellProjects/shift/src/app/core'

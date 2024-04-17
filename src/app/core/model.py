@@ -1,9 +1,10 @@
-from src.app.core.api import Features, ScoringDecision, ScoringResult
-from src.app.core.calculator import Calculator
 import joblib
 
+from src.app.core.api import Features, ScoringDecision, ScoringResult
+from src.app.core.calculator import Calculator
 
-class Model_with_scoring(object):
+
+class ModelWithScoring(object):
     """Класс для моделей c расчетом proba и threshold."""
 
     _threshold = 0.25
@@ -17,11 +18,11 @@ class Model_with_scoring(object):
         """Возвращает объект ScoringResult с результатами скоринга."""
         proba = self._predict_proba(features)
 
-        decision = ScoringDecision.DECLINED
+        decision = ScoringDecision.declined
         amount = 0
 
         if proba < self._threshold:
-            decision = ScoringDecision.ACCEPTED
+            decision = ScoringDecision.accepted
             amount = self._Calculator.calc_amount(proba, features)
 
         return ScoringResult(

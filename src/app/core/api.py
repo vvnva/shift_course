@@ -5,12 +5,12 @@ from enum import Enum, auto
 class ScoringDecision(Enum):
     """Возможные решения модели."""
 
-    ACCEPTED = auto()
-    DECLINED = auto()
+    accepted = auto()
+    declined = auto()
 
 
 @dataclass
-class ScoringResult:
+class ScoringResult(object):
     """Класс, содержащий результаты скоринга."""
 
     decision: ScoringDecision
@@ -20,8 +20,9 @@ class ScoringResult:
 
 
 @dataclass
-class Features:
+class Features(object):
     """Фичи для принятия решения об одобрении."""
+
     interest_rate: float = 0
     share_for_loan: float = 0
     weighted_ext: float = 0
